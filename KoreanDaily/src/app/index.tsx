@@ -1,15 +1,20 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {useRouter} from 'expo-router';
   
-export default function HomeScreen() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>KR Korean Daily</Text>
-        <Text style={styles.subtitle}>Learn Korean a little every day</Text>
-        <View style={styles.lessonCard}>
-          <Text style={styles.cardTitle}>Today's lesson</Text>
-          <Text style={styles.cardText}>5 new words</Text>
-          <Text style={styles.cardText}>About 5 minutes</Text>
-        <Pressable style={styles.button}>
+export default function HomeScreen(){
+  const router = useRouter();
+  return(
+    <View style={styles.container}>
+      <Text style={styles.title}>KR Korean Daily</Text>
+      <Text style={styles.subtitle}>Learn Korean a little every day</Text>
+      <View style={styles.lessonCard}>
+        <Text style={styles.cardTitle}>Today's lesson</Text>
+        <Text style={styles.cardText}>5 new words</Text>
+        <Text style={styles.cardText}>About 5 minutes</Text>
+        <Pressable 
+          style={styles.button}
+          onPress={() => router.push('/lesson')}
+        >
           <Text style={styles.buttonText}>Start Lesson</Text>
         </Pressable>
       </View>
@@ -18,25 +23,25 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container:{
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
   },
     
-  title: {
+  title:{
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 10,
   },
 
-  subtitle: {
+  subtitle:{
     fontSize: 18,
     marginBottom: 30,
   },
 
-  lessonCard: {
+  lessonCard:{
     width: '100%',
     padding: 25,
     borderRadius: 20,
@@ -44,18 +49,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  cardTitle: {
+  cardTitle:{
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 15,
   },
   
-  cardText: {
+  cardText:{
     fontSize: 16,
     marginBottom: 5,
   },
 
-  button: {
+  button:{
     marginTop: 20,
     paddingVertical: 15,
     paddingHorizontal: 40,
@@ -63,7 +68,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#222',
   },
 
-  buttonText: {
+  buttonText:{
     color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
