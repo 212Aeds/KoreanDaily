@@ -1,5 +1,5 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import {useRouter} from 'expo-router';
+import { useRouter } from 'expo-router';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
   
 export default function HomeScreen(){
   const router = useRouter();
@@ -13,7 +13,7 @@ export default function HomeScreen(){
         <Text style={styles.cardText}>About 5 minutes</Text>
         <Pressable 
           style={styles.button}
-          onPress={() => router.push('./lesson')}
+          onPress={() => router.push('/lesson')}
         >
           <Text style={styles.buttonText}>Start Lesson</Text>
         </Pressable>
