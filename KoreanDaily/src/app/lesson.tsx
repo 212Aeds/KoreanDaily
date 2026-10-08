@@ -55,8 +55,14 @@ export default function LessonScreen(){
             <Text style={styles.pronunciation}>{word.pronunciation}</Text>
             <Text style={styles.meaning}>{word.meaning}</Text>
             <Text style={styles.example}>{word.example}</Text>
-            <Pressable style={styles.button} onPress={nextWord}>
-                <Text style={styles.buttonText}>{currentWord === words.length - 1 ? 'Start Quiz' : 'Next Word'}</Text>
+            <Pressable style={styles.button} onPress={() => {
+                if(currentWord < words.length - 1){
+                    setCurrentWord(currentWord + 1);
+                }else{
+                    rouer.push('/quiz');
+                }
+            }}>
+                <Text style={styles.buttonText}>{currentWord < words.length - 1 ? 'Next Word' : 'Start Quiz'}</Text>
             </Pressable>
         </View>
     );
