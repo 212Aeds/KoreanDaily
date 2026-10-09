@@ -1,52 +1,200 @@
+import { useState } from 'react';
 import { useRouter } from 'expo-router';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-  
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+
+const durations = [5, 10, 15];
+
 export default function HomeScreen(){
   const router = useRouter();
+  const [duration, setDuration] = useState(10);
+
   return(
-    <View style={styles.container}>
-      <Text style={styles.title}>KR Korean Daily</Text>
-      <Text style={styles.subtitle}>Learn Korean a little every day</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.logo}>
+          <Text style={styles.logoText}>한</Text>
+        </View>
+        <View>
+          <Text style={styles.appName}>KoreanDaily</Text>
+          <Text style={styles.tagline}>A little Korean every day</Text>
+        </View>
+      </View>
+      
+      <View style={styles.intro}>
+        <Text style={styles.title}>What would you like to learn today?</Text>
+        <Text style={styles.subtitle}>Choose how much time you want to practice</Text>
+      </View>
+      
+      <View style={styles.durationRow}>
+        {durations.map((minutes) => (
+          <Pressable
+            key={minutes}
+            style={[
+              styles.durationCard,
+              duration === minutes && styles.selectedCard,
+            ]}
+            onPress={() => setDuration(minutes)}
+          >
+            <Text
+              style={[
+                styles.durationText,
+                duration === minutes && styles.selectedText,
+              ]}
+            >
+              {minutes} min
+            </Text>
+            <Text
+              style={[
+                styles.durationDescription,
+                duration === minutes && styles.selectedText,
+              ]}
+            >
+              {minutes === 5
+                ? 'Quick'
+                : minutes === 10
+                ? 'Balanced'
+                : 'More practice'}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
+
       <View style={styles.lessonCard}>
-        <Text style={styles.cardTitle}>Today's lesson</Text>
-        <Text style={styles.cardText}>5 new words</Text>
-        <Text style={styles.cardText}>About 5 minutes</Text>
+        <Text style={styles.eyebrow}>SUGGESTED FOR BEGINNERS</Text>
+        <Text style={styles.lessonTitle}>Start with Korean Basics</Text>
+        <Text style={styles.lessonDescription}>Learn useful words, see example sentences, and test what you remember.</Text>
+        <Text style={styles.estimatedTime}>Practice goal: {duration} minutes</Text>
+
         <Pressable 
-          style={styles.button}
-          onPress={() => router.push('/lesson')}
-        >
-          <Text style={styles.buttonText}>Start Lesson</Text>
+          style={styles.button} 
+          onPress={() => 
+            router.push({
+              pathname: './topics',
+              params: { duration: String(duration) },
+            })
+          }>
+          <Text style={styles.buttonText}>Choose a Topic</Text>
         </Pressable>
       </View>
-    </View>
+
+      <Text style={styles.footer}>Learn at your own pace. Every word counts.</Text>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container:{
-    flex: 1,
+    flexGrow: 1,
+    backgroundColor: '#FAFAF7',
+    padding: 24,
+    paddingTop: 55,
+  },
+
+  header:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 45,
+  },
+
+  logo:{
+    width: 48,
+    height: 48,
+    borderRadius: 14,
+    backgroundColor: '#DCECE0',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
   },
-    
-  title:{
-    fontSize: 32,
+
+  logoText:{
+    fontSize: 27,
     fontWeight: 'bold',
-    marginBottom: 10,
+    color: '#24543D'
+  },
+  
+  appName:{
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#24352B',
+  },
+
+  tagline:{
+    fontSize: 13,
+    color: '#68756C',
+    marginTop: 3,
+  },
+
+  intro:{
+    marginBottom: 24,
+  },
+
+  title:{
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#24352B',
+    lineHeight: 38,
   },
 
   subtitle:{
-    fontSize: 18,
-    marginBottom: 30,
+    fontSize: 16,
+    color: '#68756C',
+    marginTop: 10,
+    lineHeight: 23,
+  },
+
+  durationRow:{
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 28,
+  },
+
+  durationCard:{
+    flex: 1,
+    paddingVertical: 18,
+    paddingHorizontal: 4,
+    alignItems: 'center',
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: '#D9DED7',
+    backgroundColor: '#FFFFFF',
+  },
+
+  selectedCard:{
+    backgroundColor: '#E3F0E6',
+    borderColor: '#398260',
+    borderWidth: 2,
+  },
+
+  durationText:{
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#34483A',
+  },
+
+  durationDescription:{
+    fontSize: 11,
+    color: '#68756C',
+    marginTop: 6,
+  },
+
+  selectedText:{
+    color: '#24543D',
   },
 
   lessonCard:{
-    width: '100%',
-    padding: 25,
-    borderRadius: 20,
-    backgroundColor: '#f0f0f0',
-    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    padding: 24,
+    borderRadius: 22,
+    borderWidth: 1,
+    borderColor: '#E6E8E1',
+  },
+
+  eyebrow:{
+    fontSize: 11,
+    fontWeight: 'bold',
+    letterSpacing: 1,
+    color: '#398260',
+    marginBottom: 12,
   },
 
   cardTitle:{
@@ -54,23 +202,46 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 15,
   },
+
+  lessonTitle:{
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#24352B',
+  },
   
-  cardText:{
-    fontSize: 16,
-    marginBottom: 5,
+  lessonDescription:{
+    fontSize: 15,
+    lineHeight: 23,
+    color: '#68756C',
+    marginTop: 12,
+  },
+
+  estimatedTime:{
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#34483A',
+    marginTop: 18,
   },
 
   button:{
-    marginTop: 20,
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 10,
-    backgroundColor: '#222',
+    backgroundColor: '#24543D',
+    paddingVertical: 16,
+    borderRadius: 13,
+    alignItems: 'center',
+    marginTop: 22,
   },
 
   buttonText:{
-    color: 'white',
-    fontSize: 18,
+    color: '#FFFFFF',
+    fontSize: 16,
     fontWeight: 'bold',
   },
+
+  footer:{
+    textAlign: 'center',
+    fontSize: 13,
+    color: '#7A847C',
+    marginTop: 28,
+    marginBottom: 12,
+  }
 });
